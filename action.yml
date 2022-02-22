@@ -1,0 +1,27 @@
+name: "Setup bolt cli"
+description: "Installs and configures the bolt cli"
+
+inputs:
+  commitRef:
+    description: "Pass the value of the current head of the repo"
+    required: true
+
+outputs:
+  invokedProject:
+    description: "The project affected by the commit"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Setup Rust environment"
+      uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+    - run: ${{ github.action_path}}/checkout.sh
+      shell: bash
+
+    - name: "Configure bolt"
+      shell: bash
+      run: |
+        ${{ github.event.head_commit.message }}
