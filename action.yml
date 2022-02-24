@@ -10,6 +10,7 @@ runs:
         toolchain: stable
 
     - name: "Install bolt"
+      shell: bash
       run: cargo install bolt-cli
 
     - name: "Configure bolt"
