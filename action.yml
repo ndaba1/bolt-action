@@ -9,8 +9,8 @@ runs:
       with:
         toolchain: stable
 
-    - run: ${{ github.action_path}}/configure.sh
-      shell: bash
+    - name: "Install bolt"
+      run: cargo install bolt-cli
 
     - name: "Configure bolt"
       shell: bash
