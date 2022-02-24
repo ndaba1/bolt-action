@@ -1,6 +1,11 @@
 name: "Setup bolt cli"
 description: "Installs and configures the bolt cli"
 
+outputs:
+  TARGET:
+    description: "Returns the name of the repo which has been changed"
+    value: ${{steps.output-generator.outputs.target}}
+
 runs:
   using: "composite"
   steps:
@@ -13,11 +18,7 @@ runs:
       shell: bash
       run: cargo install bolt-cli
 
-    - name: "Configure bolt"
+    - id: output-generator
       shell: bash
       run: |
-        echo MSG="${{ github.event.head_commit.message }}" | grep -oP '(?<=\()[^\)]+'
-
-        TARGET="$(echo MSG="${{ github.event.head_commit.message }}" | grep -oP '(?<=\()[^\)]+')"
-
-        export TARGET
+        echo "::set-output name=target::$(echo MSG="${{ github.event.head_commit.message }}" | grep -oP '(?<=\()[^\)]+')"
