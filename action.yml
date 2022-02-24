@@ -18,10 +18,14 @@ runs:
         with:
           toolchain: stable
 
-    - run: ${{ github.action_path}}/checkout.sh
+    - run: ${{ github.action_path}}/configure.sh
       shell: bash
 
     - name: "Configure bolt"
       shell: bash
       run: |
-        ${{ github.event.head_commit.message }}
+        echo MSG="${{ github.event.head_commit.message }}" | grep -oP '(?<=\()[^\)]+'
+
+        TARGET="$(echo MSG="${{ github.event.head_commit.message }}" | grep -oP '(?<=\()[^\)]+')"
+
+        export TARGET
